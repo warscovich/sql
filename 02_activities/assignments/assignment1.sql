@@ -4,21 +4,19 @@
 
 --SELECT
 /* 1. Write a query that returns everything in the customer table. */
-
-
+select * from customer;
 
 /* 2. Write a query that displays all of the columns and 10 rows from the cus- tomer table, 
 sorted by customer_last_name, then customer_first_ name. */
-
-
+select * from customer order by customer_last_name, customer_first_name limit 10;
 
 --WHERE
 /* 1. Write a query that returns all customer purchases of product IDs 4 and 9. */
 -- option 1
-
+select * from customer_purchases where product_id = '4' or  product_id = '9';
 
 -- option 2
-
+select *  from customer_purchases where product_id in ('4', '9');
 
 
 /*2. Write a query that returns all customer purchases and a new calculated column 'price' (quantity * cost_to_customer_per_qty), 
@@ -27,10 +25,11 @@ filtered by vendor IDs between 8 and 10 (inclusive) using either:
 	2.  one condition using BETWEEN
 */
 -- option 1
-
+select *, (cost_to_customer_per_qty * quantity) as price from customer_purchases where vendor_id >= 8 and vendor_id <= 10;
 
 -- option 2
 
+select *, (cost_to_customer_per_qty * quantity) as price from customer_purchases where vendor_id between 8 and 10;
 
 
 --CASE
