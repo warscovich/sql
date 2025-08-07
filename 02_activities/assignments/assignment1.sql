@@ -70,11 +70,11 @@ of customers for them to give stickers to, sorted by last name, then first name.
 
 HINT: This query requires you to join two tables, use an aggregate function, and use the HAVING keyword. */
 
-select cp.customer_id, 
-	  sum(cp.quantity*cp.cost_to_customer_per_qty) as total_cost 
-from customer c inner join customer_purchases cp on (c.customer_id = cp.customer_id) 
-group by cp.customer_id having total_cost > 2000;
-
+select c.customer_last_name,c.customer_first_name,cp.customer_id,
+          sum(cp.quantity*cp.cost_to_customer_per_qty) as total_cost
+from customer c inner join customer_purchases cp on (c.customer_id = cp.customer_id)
+group by cp.customer_id having total_cost > 2000
+order by c.customer_last_name , c.customer_first_name;
 
 --Temp Table
 /* 1. Insert the original vendor table into a temp.new_vendor and then add a 10th vendor: 
