@@ -38,14 +38,13 @@ Using the product table, write a query that outputs the product_id and product_n
 columns and add a column called prod_qty_type_condensed that displays the word “unit” 
 if the product_qty_type is “unit,” and otherwise displays the word “bulk.” */
 
-select product_id, product_name, iif(product_qty_type = 'unit','unit','bulk') as prod_qty_type_condensed from product;
-
+SELECT product_id, product_name, CASE WHEN product_qty_type = 'unit' THEN 'unit' ELSE 'bulk' END AS prod_qty_type_condensed FROM product;
 
 
 /* 2. We want to flag all of the different types of pepper products that are sold at the market. 
 add a column to the previous query called pepper_flag that outputs a 1 if the product_name 
 contains the word “pepper” (regardless of capitalization), and otherwise outputs 0. */
-select product_id, product_name, iif(product_qty_type = 'unit','unit','bulk') as prod_qty_type_condensed, iif(product_name like '%pepper%',1,0) as pepper_lag from product;
+SELECT product_id, product_name, CASE WHEN product_qty_type = 'unit' THEN 'unit' ELSE 'bulk' END AS prod_qty_type_condensed, CASE WHEN product_name LIKE '%pepper%' THEN 1 ELSE 0 END AS pepper_flag FROM product;
 
 
 
