@@ -13,10 +13,10 @@ select * from customer order by customer_last_name, customer_first_name limit 10
 --WHERE
 /* 1. Write a query that returns all customer purchases of product IDs 4 and 9. */
 -- option 1
-select * from customer_purchases where product_id = '4' or  product_id = '9';
+select * from customer_purchases where product_id = 4 or  product_id = 9;
 
 -- option 2
-select * from customer_purchases where product_id in ('4', '9');
+select * from customer_purchases where product_id in (4, 9);
 
 
 /*2. Write a query that returns all customer purchases and a new calculated column 'price' (quantity * cost_to_customer_per_qty), 
@@ -60,7 +60,7 @@ select * from vendor v inner join vendor_booth_assignments vba on (vba.vendor_id
 -- AGGREGATE
 /* 1. Write a query that determines how many times each vendor has rented a booth 
 at the farmer’s market by counting the vendor booth assignments per vendor_id. */
-select vendor_id ,booth_number,count(vendor_id) as number_times_rented  from vendor_booth_assignments group by vendor_id, booth_number;
+select vendor_id ,count(vendor_id) as number_times_rented  from vendor_booth_assignments group by vendor_id;
 
 
 /* 2. The Farmer’s Market Customer Appreciation Committee wants to give a bumper 
