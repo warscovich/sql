@@ -79,7 +79,8 @@ HINT: There are a possibly a few ways to do this query, but if you're struggling
 "best day" and "worst day"; 
 3) Query the second temp table twice, once for the best day, once for the worst day, 
 with a UNION binding them. */
-j
+drop table if exists temp.total_sales_market_day;
+
 create table temp.total_sales_market_day as
 select market_date,
 sum((quantity * cost_to_customer_per_qty ))as total_sale_day
@@ -134,6 +135,8 @@ cross join
 This table will contain only products where the `product_qty_type = 'unit'`. 
 It should use all of the columns from the product table, as well as a new column for the `CURRENT_TIMESTAMP`.  
 Name the timestamp column `snapshot_timestamp`. */
+drop table if exists product_units;
+
 create table product_units as
 select *,current_timestamp as snapshot_timestamp 
 from product where product_qty_type = 'unit';
@@ -142,7 +145,7 @@ from product where product_qty_type = 'unit';
 /*2. Using `INSERT`, add a new row to the product_units table (with an updated timestamp). 
 This can be any product you desire (e.g. add another record for Apple Pie). */
 insert into product_units 
-values(24,'Blueberry pie','10"',3,'unit',current_timestamp);
+values(24,'Apple Pie','10"',3,'unit',current_timestamp);
 
 
 -- DELETE
@@ -175,6 +178,8 @@ When you have all of these components, you can run the update statement. */
 ALTER TABLE product_units
 ADD current_quantity INT;
 
+drop table if exists temp.latest_quantity_by_product_id;
+
 create table temp.latest_quantity_by_product_id as
 select pu.product_id,coalesce(qp.quantity,0) as latest_quantity
 from product_units pu
@@ -189,12 +194,6 @@ update product_units
 set current_quantity = latest.latest_quantity
 from temp.latest_quantity_by_product_id latest
 where latest.product_id = product_units.product_id;
-
-
-
-/*	select * from (select market_date, quantity, product_id, 
-	row_number() over (partition by product_id order by market_date desc) as quantity_by_date_rank
-	from vendor_inventory) order by quantity_by_date_rank;*/
 
 
 
