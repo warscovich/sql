@@ -1,4 +1,6 @@
 /* ASSIGNMENT 2 */
+--Participant Name: Julian Bueno
+
 /* SECTION 2 */
 
 -- COALESCE
@@ -20,6 +22,9 @@ The `||` values concatenate the columns into strings.
 Edit the appropriate columns -- you're making two edits -- and the NULL rows will be fixed. 
 All the other rows will remain the same.) */
 
+SELECT  product_name || ', ' || coalesce(product_size,'')|| ' (' || coalesce(product_qty_type,'unit') || ')' as long_name
+FROM product;
+
 
 
 --Windowed Functions
@@ -31,7 +36,9 @@ You can either display all rows in the customer_purchases table, with the counte
 each new market date for each customer, or select only the unique market dates per customer 
 (without purchase details) and number those visits. 
 HINT: One of these approaches uses ROW_NUMBER() and one uses DENSE_RANK(). */
-
+select distinct market_date, customer_id,number_of_visits from 
+(select market_date,customer_id, dense_rank() over (partition by customer_id order by market_date,customer_id) as number_of_visits
+from customer_purchases);
 
 
 /* 2. Reverse the numbering of the query from a part so each customer’s most recent visit is labeled 1, 
