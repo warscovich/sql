@@ -67,7 +67,7 @@ If we need to preserve address history, we will need to create the following ext
 Then whenever an address change is required for a particular customer, we will insert and additional record in Customer_Address to track he/her/they new address and modify its previous record is_active and customer_address_end_date fields. Ex.
 ```
 customer_address_id,street_address,city,province,postal_code,country, is_active, customer_address_starting_date, customer_address_end_date
-1,street_name_1,Toronto,Ontario,XXX_XXX,*false*,Canada,2024-01-01,*2025-08-01*
+1,street_name_1,Toronto,Ontario,XXX_XXX,false,Canada,2024-01-01,2025-08-01
 2,street_name_1,Toronto,Ontario,XXX_XXX,true,Canada,2025-08-01,NULL
 ```
 This way we can preserve history by quering using the *is_active* and/or *customer_staring_date and customer_address_end_date*
