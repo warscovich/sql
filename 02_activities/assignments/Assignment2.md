@@ -53,11 +53,26 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
-```
-Your answer...
-```
+If we introduce a new Customer_Address table, we will need to move the customer date information to the Customer_Address table and then decide how to handle the history.
 
-***
+#### Type 1(overwrite):
+We can just simply modify the street_address in Customer_Address table associated to the customer that needs to be changed. This will not preserve history but is simple.
+
+#### Type 2(SCD):
+If we need to preserve address history, we will need to create the following extra attributes in Customer_Address TABLE:
+*   is_active(Flag to identify active address)
+*   customer_address_starting_date(Date to identify when the customer started living in this address)
+*   customer_address_end_date (Date to identify when the customer changed the address information)
+
+Then whenever an address change is required for a particular customer, we will insert and additional record in Customer_Address to track he/her/they new address and modify its previous record is_active and customer_address_end_date fields. Ex.
+```
+customer_address_id,street_address,city,province,postal_code,country, is_active, customer_address_starting_date, customer_address_end_date
+1,street_name_1,Toronto,Ontario,XXX_XXX,false,Canada,2024-01-01,2025-08-01
+2,street_name_1,Toronto,Ontario,XXX_XXX,true,Canada,2025-08-01,NULL
+```
+This way we can preserve history by quering using the *is_active* and/or *customer_staring_date and customer_address_end_date*
+
+If further normalization is required, we wil need to introduce an Address to remove the duplicates from Customer_Address table, however this trades-off performance.
 
 ## Section 2:
 You can start this section following *session 4*.
